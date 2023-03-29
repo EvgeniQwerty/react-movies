@@ -23,7 +23,7 @@ class Main extends React.Component {
     getFullData = (id) => {
         this.setState({ movieData: {} });
 
-        fetch(`http://www.omdbapi.com/?apikey=${API_KEYgirt}=${id}&plot=full`)
+        fetch(`http://www.omdbapi.com/?apikey=${API_KEY}=${id}&plot=full`)
             .then((response) => response.json())
             .then((data) => this.setState({ movieData: data }));
     };
