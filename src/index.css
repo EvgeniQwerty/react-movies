@@ -11,3 +11,75 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+nav {
+  padding: 0 1rem;
+}
+
+.content {
+  min-height: calc(100vh - 64px - 23px);
+  padding: 2rem 0;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  grid-gap: 1rem;
+}
+
+.card-image img {
+  object-fit: cover;
+  aspect-ratio: 3/4;
+}
+
+.search-bar-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.search-bar-wrapper button {
+  padding: 0 2rem;
+}
+
+.radio-wrapper {
+  display: flex;
+  gap: 2rem;
+}
+
+/* .radio-elem {
+  display: flex;
+  gap: .5rem;
+} */
+
+.modal-all {
+  z-index: 1000;
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.4);
+  align-items: center;
+  justify-content: center;
+}
+
+.active {
+  display: flex;
+}
+
+.modal-element {
+  margin: 5rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: white;  
+}
+
+.upper-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.bold {
+  font-weight: 700;
+}
