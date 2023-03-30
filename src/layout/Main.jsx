@@ -38,7 +38,7 @@ class Main extends React.Component {
         const validMovieName = movieName.replace(' ', '+');
 
         fetch(
-            `http://www.omdbapi.com/?apikey=833af6fa&s=${validMovieName}&type=${type}`
+            `https://www.omdbapi.com/?apikey=833af6fa&s=${validMovieName}&type=${type}`
         )
             .then((response) => response.json())
             .then((data) => this.setState({ movies: data.Search }));
