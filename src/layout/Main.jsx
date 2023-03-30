@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Cards } from '../components/Cards';
 import { Search } from '../components/Search';
 import { Modal } from '../components/Modal';
@@ -6,34 +6,21 @@ import { Preloader } from '../components/Preloader';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-class Main extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            movies: [],
-            modalActive: false,
-            setModalActive: (modalState) => {
-                this.setState({ modalActive: modalState });
-                console.log(this.state.modalActive);
-            },
-            movieData: {},
-        };
-    }
+function Main() {
+    const [movies, setMovies] = useState([]);
+    const [modalActive, setModalActive] = useState(false);
+    const [movieData, setMovieData] = useState({});
 
-    getFullData = (id) => {
-        this.setState({ movieData: {} });
+    const getFullData = (id) => {
+        setMovieData({});
 
-        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}=${id}&plot=full`)
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}&plot=full`)
             .then((response) => response.json())
-            .then((data) => this.setState({ movieData: data }));
+            .then((data) => setMovieData(data));
     };
 
-    componentDidMount() {
-        this.fetchData('furious');
-    }
-
-    fetchData = (movieName, type = '') => {
-        this.setState({ movies: [] });
+    const fetchData = (movieName, type = '') => {
+        setMovies([]);
 
         const validMovieName = movieName.replace(' ', '+');
 
@@ -41,37 +28,36 @@ class Main extends React.Component {
             `https://www.omdbapi.com/?apikey=833af6fa&s=${validMovieName}&type=${type}`
         )
             .then((response) => response.json())
-            .then((data) => this.setState({ movies: data.Search }));
+            .then((data) => setMovies(data.Search));
     };
 
-    render() {
-        const { movies, modalActive, setModalActive } = this.state;
+    useEffect(() => {
+        fetchData('furious');
+    }, []);
 
-        return (
-            <main className='container content'>
-                <Search callback={this.fetchData} />
-                <Modal
-                    active={modalActive}
-                    setActive={setModalActive}
-                    data={this.state.movieData}
-                />
-                {movies ? (
-                    movies.length ? (
-                        <Cards
-                            movies={movies}
-                            setModalActive={setModalActive}
-                            getFullData={this.getFullData}
-                        />
-                    ) : (
-                        <Preloader />
-                    )
+    return (
+        <main className='container content'>
+            <Search callback={fetchData} />
+            <Modal
+                active={modalActive}
+                setActive={setModalActive}
+                data={movieData}
+            />
+            {movies ? (
+                movies.length ? (
+                    <Cards
+                        movies={movies}
+                        setModalActive={setModalActive}
+                        getFullData={getFullData}
+                    />
                 ) : (
-                    <h5>0 results found</h5>
-                )}
-            </main>
-        );
-    }
+                    <Preloader />
+                )
+            ) : (
+                <h5>0 results found</h5>
+            )}
+        </main>
+    );
 }
 
 export { Main };
-
